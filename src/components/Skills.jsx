@@ -1,6 +1,11 @@
 import React from 'react'
 
 export default function Skills() {
+  const getSkillLevel = (skill) => {
+    const seed = skill.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)
+    return 80 + (seed % 21)
+  }
+
   const skillCategories = [
     {
       category: 'Cloud & Infrastructure',
@@ -48,25 +53,28 @@ export default function Skills() {
                 {category.category}
               </h3>
               <div className="space-y-3">
-                {category.skills.map((skill, skillIdx) => (
-                  <div key={skillIdx} className="group">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium dark:text-gray-300 text-gray-700 dark:group-hover:text-white group-hover:text-gray-900 transition-colors duration-200">
-                        {skill}
-                      </span>
-                      <span className="text-xs text-blue-400">90%</span>
+                {category.skills.map((skill, skillIdx) => {
+                  const level = getSkillLevel(skill)
+
+                  return (
+                    <div key={skillIdx} className="group">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm font-medium dark:text-gray-300 text-gray-700 dark:group-hover:text-white group-hover:text-gray-900 transition-colors duration-200">
+                          {skill}
+                        </span>
+                        <span className="text-xs text-blue-400">{level}%</span>
+                      </div>
+                      <div className="w-full h-2 dark:bg-gray-800 bg-gray-300 rounded-full overflow-hidden">
+                        <div
+                          className="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full transition-all duration-700 group-hover:shadow-lg group-hover:shadow-blue-500/50"
+                          style={{
+                            width: `${level}%`,
+                          }}
+                        ></div>
+                      </div>
                     </div>
-                    <div className="w-full h-2 dark:bg-gray-800 bg-gray-300 rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full transition-all duration-700 group-hover:shadow-lg group-hover:shadow-blue-500/50"
-                        style={{
-                          width: `${85 + Math.random() * 15}%`,
-                          animation: 'slideRight 1s ease-out',
-                        }}
-                      ></div>
-                    </div>
-                  </div>
-                ))}
+                  )
+                })}
               </div>
             </div>
           ))}

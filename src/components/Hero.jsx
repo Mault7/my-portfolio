@@ -1,5 +1,5 @@
 import React from 'react'
-import { ArrowRight, Download, Mail } from 'lucide-react'
+import { ArrowRight, Download } from 'lucide-react'
 
 export default function Hero() {
   const scrollTo = (id) => {
@@ -53,13 +53,14 @@ export default function Hero() {
               Get in Touch
               <ArrowRight size={20} className="ml-2 group-hover:translate-x-1 transition-transform duration-300" />
             </button>
-            <a
-              href="#download-cv"
+            <button
+              type="button"
+              onClick={() => scrollTo('contact')}
               className="btn-secondary group"
             >
               <Download size={20} className="mr-2" />
-              Download CV
-            </a>
+              Request CV
+            </button>
           </div>
 
           {/* Scroll Indicator */}

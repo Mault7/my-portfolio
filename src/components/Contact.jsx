@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Mail, Linkedin, Github, Twitter, Send, CheckCircle, AlertCircle } from 'lucide-react'
+import { Mail, Linkedin, Twitter, Send, CheckCircle, AlertCircle } from 'lucide-react'
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -158,7 +158,7 @@ export default function Contact() {
                     </div>
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-white">Email</h4>
+                    <h4 className="text-sm font-bold dark:text-white text-gray-900">Email</h4>
                     <a href="mailto:mauri.It0408@gmail.com" className="text-sm text-blue-400 hover:text-blue-300 transition-colors">
                       mauri.It0408@gmail.com
                     </a>
@@ -174,7 +174,7 @@ export default function Contact() {
                     </div>
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-white">LinkedIn</h4>
+                    <h4 className="text-sm font-bold dark:text-white text-gray-900">LinkedIn</h4>
                     <a href="https://linkedin.com/in/mauricio-lara-tapia-86911626a" target="_blank" rel="noopener noreferrer" className="text-sm text-blue-400 hover:text-blue-300 transition-colors">
                       /mauricio-lara-tapia
                     </a>
@@ -190,7 +190,7 @@ export default function Contact() {
                     </div>
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-white">Phone</h4>
+                    <h4 className="text-sm font-bold dark:text-white text-gray-900">Phone</h4>
                     <a href="tel:+59174839759" className="text-sm text-blue-400 hover:text-blue-300 transition-colors">
                       +591 74839759
                     </a>
@@ -201,7 +201,7 @@ export default function Contact() {
 
             {/* Social Links */}
             <div>
-              <h4 className="text-sm font-bold text-white mb-4">Connect With Me</h4>
+              <h4 className="text-sm font-bold dark:text-white text-gray-900 mb-4">Connect With Me</h4>
               <div className="flex gap-3">
                 <a
                   href="https://linkedin.com/in/mauricio-lara-tapia-86911626a"

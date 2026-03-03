@@ -1,5 +1,5 @@
 import React from 'react'
-import { Heart, Github, Twitter, Linkedin, Mail } from 'lucide-react'
+import { Heart, Twitter, Linkedin, Mail } from 'lucide-react'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
@@ -10,13 +10,6 @@ export default function Footer() {
     { label: 'Contact', href: '#contact' },
     { label: 'Privacy', href: '#' },
   ]
-
-  const socialIcons = [
-    { icon: Github, href: 'https://github.com', label: 'GitHub' },
-    { icon: Twitter, href: 'https://twitter.com', label: 'Twitter' },
-    { icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
-  ]
-
   return (
     <footer className="relative dark:border-gray-800 border-gray-300 dark:bg-black bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

@@ -2,6 +2,33 @@ import React from 'react'
 import { Github, ExternalLink, ArrowUpRight } from 'lucide-react'
 
 export default function Projects() {
+  const renderProjectLink = (url, Icon, label) => {
+    if (url && url !== '#') {
+      return (
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 text-sm dark:text-gray-400 text-gray-600 dark:hover:text-blue-400 hover:text-blue-600 transition-colors duration-300 group/link"
+        >
+          <Icon size={16} />
+          {label}
+          <ArrowUpRight size={14} className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform duration-300" />
+        </a>
+      )
+    }
+
+    return (
+      <span
+        className="flex items-center gap-2 text-sm dark:text-gray-600 text-gray-500 cursor-not-allowed"
+        aria-disabled="true"
+      >
+        <Icon size={16} />
+        {label} unavailable
+      </span>
+    )
+  }
+
   const projects = [
     {
       title: 'Kubernetes Infrastructure Standardization',
@@ -134,22 +161,8 @@ export default function Projects() {
 
                 {/* Links */}
                 <div className="flex gap-3 pt-4 dark:border-t dark:border-gray-800 border-t border-gray-300">
-                  <a
-                    href={project.links.github}
-                    className="flex items-center gap-2 text-sm dark:text-gray-400 text-gray-600 dark:hover:text-blue-400 hover:text-blue-600 transition-colors duration-300 group/link"
-                  >
-                    <Github size={16} />
-                    Code
-                    <ArrowUpRight size={14} className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform duration-300" />
-                  </a>
-                  <a
-                    href={project.links.demo}
-                    className="flex items-center gap-2 text-sm dark:text-gray-400 text-gray-600 dark:hover:text-blue-400 hover:text-blue-600 transition-colors duration-300 group/link"
-                  >
-                    <ExternalLink size={16} />
-                    Demo
-                    <ArrowUpRight size={14} className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform duration-300" />
-                  </a>
+                  {renderProjectLink(project.links.github, Github, 'Code')}
+                  {renderProjectLink(project.links.demo, ExternalLink, 'Demo')}
                 </div>
               </div>
 
@@ -161,10 +174,15 @@ export default function Projects() {
 
         {/* View All Projects */}
         <div className="flex justify-center mt-16">
-          <button className="btn-primary group">
+          <a
+            href="https://github.com/Mault7"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary group"
+          >
             View All Projects
             <ArrowUpRight size={20} className="ml-2 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
-          </button>
+          </a>
         </div>
       </div>
     </section>

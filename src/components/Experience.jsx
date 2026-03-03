@@ -63,7 +63,7 @@ export default function Experience() {
           {/* Experience Items */}
           <div className="space-y-12">
             {experiences.map((exp, idx) => (
-              <div key={idx} className={`relative z-10 ${idx % 2 === 0 ? 'md:pr-1/2' : 'md:ml-1/2 md:pl-12'}`}>
+              <div key={idx} className={`relative z-10 md:w-1/2 ${idx % 2 === 0 ? 'md:pr-12' : 'md:ml-auto md:pl-12'}`}>
                 {/* Timeline dot - REMOVED */}
 
                 {/* Card */}
