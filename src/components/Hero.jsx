@@ -2,6 +2,8 @@ import React from 'react'
 import { ArrowRight, Download } from 'lucide-react'
 
 export default function Hero() {
+  const cvHref = `${import.meta.env.BASE_URL}Mauricio-Lara-CV.pdf`
+
   const scrollTo = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
   }
@@ -28,7 +30,10 @@ export default function Hero() {
 
           {/* Main Heading */}
           <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold mb-6 leading-tight">
-            <span className="block dark:text-white text-gray-900">Hi, I'm</span>
+            <span className="block dark:text-white text-gray-900">
+              Hi, I&apos;m
+              <span className="inline-block ml-3 wave-hand" aria-label="Waving hand" role="img">👋</span>
+            </span>
             <span className="block bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 bg-clip-text text-transparent">
               Mauricio Lara
             </span>
@@ -53,14 +58,14 @@ export default function Hero() {
               Get in Touch
               <ArrowRight size={20} className="ml-2 group-hover:translate-x-1 transition-transform duration-300" />
             </button>
-            <button
-              type="button"
-              onClick={() => scrollTo('contact')}
+            <a
+              href={cvHref}
+              download="Mauricio-Lara-CV.pdf"
               className="btn-secondary group"
             >
               <Download size={20} className="mr-2" />
-              Request CV
-            </button>
+              Download CV
+            </a>
           </div>
 
           {/* Scroll Indicator */}

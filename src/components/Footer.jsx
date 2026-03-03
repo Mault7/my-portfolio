@@ -1,5 +1,5 @@
 import React from 'react'
-import { Heart, Twitter, Linkedin, Mail } from 'lucide-react'
+import { Heart, Phone, Linkedin, Mail } from 'lucide-react'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
@@ -71,7 +71,7 @@ export default function Footer() {
                   aria-label="Phone"
                   className="p-2 rounded-lg dark:bg-gray-900 bg-gray-200 dark:hover:bg-blue-600/20 hover:bg-blue-500/20 dark:text-gray-400 text-gray-700 dark:hover:text-blue-400 hover:text-blue-600 dark:border-gray-800 border-gray-300 dark:hover:border-blue-600/50 hover:border-blue-400 transition-all duration-300"
                 >
-                  <Twitter size={20} />
+                  <Phone size={20} />
                 </a>
               </div>
             </div>
@@ -83,7 +83,7 @@ export default function Footer() {
           {/* Bottom Section */}
           <div className="flex flex-col md:flex-row items-center justify-between">
             <p className="text-sm dark:text-gray-500 text-gray-700 text-center md:text-left">
-              © {currentYear} Maurício. All rights reserved.
+              © {currentYear} Mauricio. All rights reserved.
             </p>
             <p className="text-sm dark:text-gray-500 text-gray-700 flex items-center gap-1 mt-4 md:mt-0">
               Made with

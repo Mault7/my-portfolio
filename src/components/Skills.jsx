@@ -1,4 +1,5 @@
 import React from 'react'
+import { Award, GraduationCap, BadgeCheck, ExternalLink } from 'lucide-react'
 
 export default function Skills() {
   const getSkillLevel = (skill) => {
@@ -30,6 +31,25 @@ export default function Skills() {
     {
       category: 'Web Servers & Tools',
       skills: ['Nginx', 'Apache', 'Git Version Control', 'Linux CLI', 'Docker Compose'],
+    },
+  ]
+
+  const certifications = [
+    'HashiCorp Certified: Terraform Associate 004',
+  ]
+
+  const education = [
+    'Postgraduate in Internet of Things (IoT) - UBA, Argentina',
+    "Bachelor's in Electronic Systems Engineering - EMI, Bolivia",
+  ]
+
+  const badges = [
+    {
+      title: 'Terraform Associate',
+      provider: 'HashiCorp',
+      status: 'Earned',
+      imageUrl: `${import.meta.env.BASE_URL}badges/hashicorp-certified-terraform-associate-004.png`,
+      verifyUrl: 'https://www.credly.com/badges/9e4f65df-0fbe-4291-9feb-a62a752d3d62/public_url',
     },
   ]
 
@@ -80,27 +100,88 @@ export default function Skills() {
           ))}
         </div>
 
-        {/* Additional Info */}
-        <div className="mt-16 p-8 dark:bg-blue-600/10 bg-blue-500/5 border dark:border-blue-500/30 border-blue-400/30 rounded-lg">
-          <h3 className="text-xl font-bold dark:text-blue-400 text-blue-600 mb-4">Certifications & Education</h3>
-          <ul className="grid md:grid-cols-2 gap-4 dark:text-gray-300 text-gray-700">
-            <li className="flex items-center">
-              <span className="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
-              HashiCorp Certified: Terraform Associate 004
-            </li>
-            <li className="flex items-center">
-              <span className="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
-              Postgraduate in Internet of Things (IoT) - UBA, Argentina
-            </li>
-            <li className="flex items-center">
-              <span className="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
-              Bachelor's in Electronic Systems Engineering - EMI, Bolivia
-            </li>
-            <li className="flex items-center">
-              <span className="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
-              Languages: Spanish (Native) • English (Intermediate B1)
-            </li>
-          </ul>
+        {/* Credentials */}
+        <div className="mt-16 grid md:grid-cols-2 gap-8">
+          <div className="p-8 dark:bg-blue-600/10 bg-blue-500/5 border dark:border-blue-500/30 border-blue-400/30 rounded-lg">
+            <div className="flex items-center gap-3 mb-4">
+              <Award className="w-5 h-5 text-blue-500" />
+              <h3 className="text-xl font-bold dark:text-blue-400 text-blue-600">Certifications</h3>
+            </div>
+            <ul className="space-y-3 dark:text-gray-300 text-gray-700">
+              {certifications.map((item) => (
+                <li key={item} className="flex items-center">
+                  <span className="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="p-8 dark:bg-blue-600/10 bg-blue-500/5 border dark:border-blue-500/30 border-blue-400/30 rounded-lg">
+            <div className="flex items-center gap-3 mb-4">
+              <GraduationCap className="w-5 h-5 text-blue-500" />
+              <h3 className="text-xl font-bold dark:text-blue-400 text-blue-600">Education</h3>
+            </div>
+            <ul className="space-y-3 dark:text-gray-300 text-gray-700">
+              {education.map((item) => (
+                <li key={item} className="flex items-center">
+                  <span className="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="mt-8 p-8 dark:bg-blue-600/10 bg-blue-500/5 border dark:border-blue-500/30 border-blue-400/30 rounded-lg">
+          <div className="flex items-center gap-3 mb-2">
+            <BadgeCheck className="w-5 h-5 text-blue-500" />
+            <h3 className="text-xl font-bold dark:text-blue-400 text-blue-600">Professional Badges</h3>
+          </div>
+          <p className="text-sm dark:text-gray-400 text-gray-700 mb-6">
+            This section is ready for Terraform and any future badges you earn.
+          </p>
+
+          <div className="badge-carousel">
+            <div className="badge-track">
+              {[...badges, ...badges].map((badge, idx) => (
+                <div key={`${badge.title}-${badge.provider}-${idx}`} className="card badge-carousel-item">
+                  <div className="mb-4">
+                    {badge.imageUrl ? (
+                      <img
+                        src={badge.imageUrl}
+                        alt={`${badge.title} badge`}
+                        className="w-28 h-28 object-contain"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div className="w-28 h-28 rounded-lg bg-blue-600/10 border border-blue-500/30 flex items-center justify-center">
+                        <BadgeCheck className="w-12 h-12 text-blue-500" />
+                      </div>
+                    )}
+                  </div>
+                  <p className="text-sm font-semibold dark:text-white text-gray-900">{badge.title}</p>
+                  <p className="text-xs dark:text-gray-400 text-gray-600 mt-1">{badge.provider}</p>
+                  <span className="inline-flex mt-3 px-2 py-1 text-xs font-medium rounded-full bg-blue-600/20 text-blue-400 border border-blue-500/30">
+                    {badge.status}
+                  </span>
+                  {badge.verifyUrl ? (
+                    <a
+                      href={badge.verifyUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-4 inline-flex items-center gap-2 text-sm text-blue-500 hover:text-blue-400 transition-colors"
+                    >
+                      Verify badge
+                      <ExternalLink size={14} />
+                    </a>
+                  ) : (
+                    <p className="mt-4 text-xs dark:text-gray-500 text-gray-600">Verification link available on request.</p>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>

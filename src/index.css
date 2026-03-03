@@ -105,3 +105,48 @@ html:not(.dark) ::-webkit-scrollbar-thumb {
 .stagger-item:nth-child(4) { animation-delay: 0.4s; }
 .stagger-item:nth-child(5) { animation-delay: 0.5s; }
 .stagger-item:nth-child(6) { animation-delay: 0.6s; }
+
+.wave-hand {
+  transform-origin: 70% 70%;
+  animation: waveHand 2s ease-in-out infinite;
+}
+
+@keyframes waveHand {
+  0%, 60%, 100% { transform: rotate(0deg); }
+  10% { transform: rotate(14deg); }
+  20% { transform: rotate(-8deg); }
+  30% { transform: rotate(14deg); }
+  40% { transform: rotate(-4deg); }
+  50% { transform: rotate(10deg); }
+}
+
+.badge-carousel {
+  overflow: hidden;
+  width: 100%;
+}
+
+.badge-track {
+  display: flex;
+  gap: 1rem;
+  width: max-content;
+  animation: badgeMarquee 18s linear infinite;
+}
+
+.badge-carousel:hover .badge-track {
+  animation-play-state: paused;
+}
+
+.badge-carousel-item {
+  min-width: 320px;
+}
+
+@keyframes badgeMarquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .badge-track {
+    animation: none;
+  }
+}

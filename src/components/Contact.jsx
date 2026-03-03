@@ -1,13 +1,16 @@
 import React, { useState } from 'react'
-import { Mail, Linkedin, Twitter, Send, CheckCircle, AlertCircle } from 'lucide-react'
+import { Mail, Linkedin, Phone, Send, CheckCircle, AlertCircle } from 'lucide-react'
 
 export default function Contact() {
+  const contactEndpoint = import.meta.env.VITE_CONTACT_ENDPOINT || 'https://formsubmit.co/ajax/mauri.It0408@gmail.com'
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     message: '',
   })
   const [status, setStatus] = useState(null)
+  const [errorMessage, setErrorMessage] = useState('Please fill in all fields')
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -17,21 +20,45 @@ export default function Contact() {
     }))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    
-    // Simulate form submission
+
+    if (!formData.name || !formData.email || !formData.message) {
+      setErrorMessage('Name, email, and message are required.')
+      setStatus('error')
+      setTimeout(() => setStatus(null), 5000)
+      return
+    }
+
     setStatus('loading')
-    setTimeout(() => {
-      if (formData.name && formData.email && formData.message) {
-        setStatus('success')
-        setFormData({ name: '', email: '', message: '' })
-        setTimeout(() => setStatus(null), 5000)
-      } else {
-        setStatus('error')
-        setTimeout(() => setStatus(null), 5000)
+
+    try {
+      const response = await fetch(contactEndpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          _subject: `Portfolio message from ${formData.name}`,
+          _captcha: 'false',
+          _template: 'table',
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Request failed')
       }
-    }, 1000)
+
+      setStatus('success')
+      setFormData({ name: '', email: '', message: '' })
+      setTimeout(() => setStatus(null), 5000)
+    } catch {
+      setErrorMessage('Message could not be sent. Please try again in a moment.')
+      setStatus('error')
+      setTimeout(() => setStatus(null), 5000)
+    }
   }
 
   return (
@@ -137,8 +164,8 @@ export default function Contact() {
                   <div className="p-4 bg-red-600/20 border border-red-600/50 rounded-lg flex items-center gap-3 text-red-300 animate-fade-in">
                     <AlertCircle size={20} />
                     <div>
-                      <p className="font-medium">Please fill in all fields</p>
-                      <p className="text-sm opacity-90">Name, email, and message are required.</p>
+                      <p className="font-medium">Message not sent</p>
+                      <p className="text-sm opacity-90">{errorMessage}</p>
                     </div>
                   </div>
                 )}
@@ -185,8 +212,8 @@ export default function Contact() {
               <div className="card group">
                 <div className="flex items-center space-x-4">
                   <div className="flex-shrink-0">
-                    <div className="flex items-center justify-center h-12 w-12 rounded-lg bg-blue-600/20">
-                      <Twitter className="h-6 w-6 text-blue-400" />
+                      <div className="flex items-center justify-center h-12 w-12 rounded-lg bg-blue-600/20">
+                      <Phone className="h-6 w-6 text-blue-400" />
                     </div>
                   </div>
                   <div>
@@ -224,7 +251,7 @@ export default function Contact() {
                   aria-label="Phone"
                   className="p-3 rounded-lg dark:bg-gray-900 bg-gray-200 dark:border-gray-800 border-gray-300 dark:text-gray-400 text-gray-600 transition-all duration-300 hover:border-blue-600/50 hover:text-blue-600"
                 >
-                  <Twitter size={20} />
+                  <Phone size={20} />
                 </a>
               </div>
             </div>
