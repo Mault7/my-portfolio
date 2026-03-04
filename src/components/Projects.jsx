@@ -2,6 +2,8 @@ import React from 'react'
 import { Github, ExternalLink, ArrowUpRight } from 'lucide-react'
 
 export default function Projects() {
+  const githubProfileUrl = import.meta.env.VITE_GITHUB_PROFILE_URL || '#'
+
   const renderProjectLink = (url, Icon, label) => {
     if (url && url !== '#') {
       return (
@@ -175,7 +177,7 @@ export default function Projects() {
         {/* View All Projects */}
         <div className="flex justify-center mt-16">
           <a
-            href="https://github.com/Mault7"
+            href={githubProfileUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-primary group"

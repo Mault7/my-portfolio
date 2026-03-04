@@ -2,7 +2,20 @@ import React from 'react'
 import { Heart, Phone, Linkedin, Mail } from 'lucide-react'
 
 export default function Footer() {
+  const normalizeExternalUrl = (url) => {
+    if (!url) return ''
+    return /^https?:\/\//i.test(url) ? url : `https://${url}`
+  }
+
   const currentYear = new Date().getFullYear()
+  const contactEmail = import.meta.env.VITE_CONTACT_EMAIL || ''
+  const contactPhoneE164 = import.meta.env.VITE_CONTACT_PHONE_E164 || ''
+  const linkedinUrl = normalizeExternalUrl(import.meta.env.VITE_CONTACT_LINKEDIN_URL || '')
+  const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || ''
+  const whatsappIntro = import.meta.env.VITE_WHATSAPP_INTRO || 'Hello, I found your portfolio and I would like to contact you.'
+  const quickWhatsAppHref = whatsappNumber
+    ? `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappIntro)}`
+    : ''
 
   const footerLinks = [
     { label: 'About', href: '#about' },
@@ -51,7 +64,7 @@ export default function Footer() {
               <h4 className="text-sm font-bold dark:text-white text-gray-900 mb-4">Connect With Me</h4>
               <div className="flex gap-3">
                 <a
-                  href="https://linkedin.com/in/mauricio-lara-tapia-86911626a"
+                  href={linkedinUrl || '#'}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="LinkedIn"
@@ -60,14 +73,16 @@ export default function Footer() {
                   <Linkedin size={20} />
                 </a>
                 <a
-                  href="mailto:mauri.It0408@gmail.com"
+                  href={contactEmail ? `mailto:${contactEmail}` : '#'}
                   aria-label="Email"
                   className="p-2 rounded-lg dark:bg-gray-900 bg-gray-200 dark:hover:bg-blue-600/20 hover:bg-blue-500/20 dark:text-gray-400 text-gray-700 dark:hover:text-blue-400 hover:text-blue-600 dark:border-gray-800 border-gray-300 dark:hover:border-blue-600/50 hover:border-blue-400 transition-all duration-300"
                 >
                   <Mail size={20} />
                 </a>
                 <a
-                  href="tel:+59174839759"
+                  href={quickWhatsAppHref || (contactPhoneE164 ? `tel:${contactPhoneE164}` : '#')}
+                  target={quickWhatsAppHref ? '_blank' : undefined}
+                  rel={quickWhatsAppHref ? 'noopener noreferrer' : undefined}
                   aria-label="Phone"
                   className="p-2 rounded-lg dark:bg-gray-900 bg-gray-200 dark:hover:bg-blue-600/20 hover:bg-blue-500/20 dark:text-gray-400 text-gray-700 dark:hover:text-blue-400 hover:text-blue-600 dark:border-gray-800 border-gray-300 dark:hover:border-blue-600/50 hover:border-blue-400 transition-all duration-300"
                 >

@@ -42,6 +42,14 @@ npm run dev
 
 App URL: `http://localhost:3000`
 
+3. Configure environment variables
+
+```bash
+cp .env.example .env
+```
+
+Then update values in `.env` for contact info, WhatsApp, CV filename, badges, and profile links.
+
 ### Docker (Current Setup)
 
 #### Development with Compose
@@ -113,11 +121,13 @@ my-portfolio/
 
 ## 📧 Contact Form
 
-The contact form in `src/components/Contact.jsx` currently simulates submission. To enable real form handling:
+The contact form is configured for direct WhatsApp messaging.
+It uses:
 
-1. Set up a backend API endpoint.
-2. Update `handleSubmit` to perform a real request.
-3. Or use services like Formspree, EmailJS, or Netlify Forms.
+- `VITE_WHATSAPP_NUMBER`
+- `VITE_WHATSAPP_INTRO`
+
+It also includes sender `Full Name`, `Email Address`, and `Message` in the prefilled WhatsApp text.
 
 ## 🚀 Deployment
 
@@ -127,6 +137,40 @@ The contact form in `src/components/Contact.jsx` currently simulates submission.
 npm run build
 npm run deploy
 ```
+
+### GitHub Pages With GitHub Actions (Recommended)
+
+This repository includes a workflow at `.github/workflows/deploy-pages.yml` that builds and deploys automatically on pushes to `main`.
+
+#### Step-by-step setup
+
+1. Push your repository to GitHub (default branch: `main`).
+2. In GitHub, go to `Settings` -> `Pages`.
+3. In `Build and deployment`, set:
+   - `Source`: `GitHub Actions`
+4. Go to `Settings` -> `Secrets and variables` -> `Actions`.
+5. Add repository **Variables** (recommended for non-sensitive values):
+   - `VITE_CONTACT_EMAIL`
+   - `VITE_CONTACT_PHONE_E164`
+   - `VITE_CONTACT_PHONE_DISPLAY`
+   - `VITE_CONTACT_LINKEDIN_URL`
+   - `VITE_CONTACT_LINKEDIN_HANDLE`
+   - `VITE_WHATSAPP_INTRO`
+   - `VITE_CV_FILE_NAME`
+   - `VITE_TERRAFORM_BADGE_IMAGE_URL`
+   - `VITE_TERRAFORM_BADGE_VERIFY_URL`
+   - `VITE_GITHUB_PROFILE_URL`
+6. Add repository **Secrets**:
+   - `VITE_WHATSAPP_NUMBER`
+7. Commit and push to `main`.
+8. Open the `Actions` tab, run `Deploy To GitHub Pages` (or wait for push trigger).
+9. After success, your site will be published at:
+   - `https://<your-username>.github.io/my-portfolio/`
+
+Notes:
+- The workflow uses Vite environment variables (`VITE_*`) at build time.
+- Keep `vite.config.js` base aligned with your repository name.
+- You can copy values from `.env.example`.
 
 ### Netlify / Vercel
 

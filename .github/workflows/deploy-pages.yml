@@ -1,0 +1,63 @@
+name: Deploy To GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      VITE_CONTACT_EMAIL: ${{ vars.VITE_CONTACT_EMAIL }}
+      VITE_CONTACT_PHONE_E164: ${{ vars.VITE_CONTACT_PHONE_E164 }}
+      VITE_CONTACT_PHONE_DISPLAY: ${{ vars.VITE_CONTACT_PHONE_DISPLAY }}
+      VITE_CONTACT_LINKEDIN_URL: ${{ vars.VITE_CONTACT_LINKEDIN_URL }}
+      VITE_CONTACT_LINKEDIN_HANDLE: ${{ vars.VITE_CONTACT_LINKEDIN_HANDLE }}
+      VITE_WHATSAPP_INTRO: ${{ vars.VITE_WHATSAPP_INTRO }}
+      VITE_CV_FILE_NAME: ${{ vars.VITE_CV_FILE_NAME }}
+      VITE_TERRAFORM_BADGE_IMAGE_URL: ${{ vars.VITE_TERRAFORM_BADGE_IMAGE_URL }}
+      VITE_TERRAFORM_BADGE_VERIFY_URL: ${{ vars.VITE_TERRAFORM_BADGE_VERIFY_URL }}
+      VITE_GITHUB_PROFILE_URL: ${{ vars.VITE_GITHUB_PROFILE_URL }}
+      VITE_WHATSAPP_NUMBER: ${{ secrets.VITE_WHATSAPP_NUMBER }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy To GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

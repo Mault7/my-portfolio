@@ -2,7 +2,8 @@ import React from 'react'
 import { ArrowRight, Download } from 'lucide-react'
 
 export default function Hero() {
-  const cvHref = `${import.meta.env.BASE_URL}Mauricio-Lara-CV.pdf`
+  const cvFileName = import.meta.env.VITE_CV_FILE_NAME || ''
+  const cvHref = cvFileName ? `${import.meta.env.BASE_URL}${cvFileName}` : '#'
 
   const scrollTo = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
@@ -60,7 +61,7 @@ export default function Hero() {
             </button>
             <a
               href={cvHref}
-              download="Mauricio-Lara-CV.pdf"
+              download={cvFileName || undefined}
               className="btn-secondary group"
             >
               <Download size={20} className="mr-2" />

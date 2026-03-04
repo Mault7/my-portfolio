@@ -2,6 +2,9 @@ import React from 'react'
 import { Award, GraduationCap, BadgeCheck, ExternalLink } from 'lucide-react'
 
 export default function Skills() {
+  const terraformBadgeImageUrl = import.meta.env.VITE_TERRAFORM_BADGE_IMAGE_URL || ''
+  const terraformBadgeVerifyUrl = import.meta.env.VITE_TERRAFORM_BADGE_VERIFY_URL || ''
+
   const getSkillLevel = (skill) => {
     const seed = skill.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)
     return 80 + (seed % 21)
@@ -36,6 +39,7 @@ export default function Skills() {
 
   const certifications = [
     'HashiCorp Certified: Terraform Associate 004',
+    'AWS Certified Solutions Architect - Associate (SAA-C03) - In Progress',
   ]
 
   const education = [
@@ -48,8 +52,15 @@ export default function Skills() {
       title: 'Terraform Associate',
       provider: 'HashiCorp',
       status: 'Earned',
-      imageUrl: `${import.meta.env.BASE_URL}badges/hashicorp-certified-terraform-associate-004.png`,
-      verifyUrl: 'https://www.credly.com/badges/9e4f65df-0fbe-4291-9feb-a62a752d3d62/public_url',
+      imageUrl: terraformBadgeImageUrl,
+      verifyUrl: terraformBadgeVerifyUrl,
+    },
+    {
+      title: 'Solutions Architect Associate',
+      provider: 'Amazon Web Services',
+      status: 'In Progress',
+      imageUrl: '',
+      verifyUrl: '',
     },
   ]
 
@@ -101,7 +112,7 @@ export default function Skills() {
         </div>
 
         {/* Credentials */}
-        <div className="mt-16 grid md:grid-cols-2 gap-8">
+        <div className="mt-8 grid md:grid-cols-2 gap-8">
           <div className="p-8 dark:bg-blue-600/10 bg-blue-500/5 border dark:border-blue-500/30 border-blue-400/30 rounded-lg">
             <div className="flex items-center gap-3 mb-4">
               <Award className="w-5 h-5 text-blue-500" />
@@ -162,7 +173,11 @@ export default function Skills() {
                   </div>
                   <p className="text-sm font-semibold dark:text-white text-gray-900">{badge.title}</p>
                   <p className="text-xs dark:text-gray-400 text-gray-600 mt-1">{badge.provider}</p>
-                  <span className="inline-flex mt-3 px-2 py-1 text-xs font-medium rounded-full bg-blue-600/20 text-blue-400 border border-blue-500/30">
+                  <span className={`inline-flex mt-3 px-2 py-1 text-xs font-medium rounded-full border ${
+                    badge.status === 'Earned'
+                      ? 'bg-blue-600/20 text-blue-400 border-blue-500/30'
+                      : 'bg-amber-500/15 text-amber-400 border-amber-500/40'
+                  }`}>
                     {badge.status}
                   </span>
                   {badge.verifyUrl ? (

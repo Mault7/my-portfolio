@@ -146,7 +146,7 @@ html:not(.dark) ::-webkit-scrollbar-thumb {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .badge-track {
+  .wave-hand {
     animation: none;
   }
 }

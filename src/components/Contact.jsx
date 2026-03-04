@@ -2,7 +2,21 @@ import React, { useState } from 'react'
 import { Mail, Linkedin, Phone, Send, CheckCircle, AlertCircle } from 'lucide-react'
 
 export default function Contact() {
-  const contactEndpoint = import.meta.env.VITE_CONTACT_ENDPOINT || 'https://formsubmit.co/ajax/mauri.It0408@gmail.com'
+  const normalizeExternalUrl = (url) => {
+    if (!url) return ''
+    return /^https?:\/\//i.test(url) ? url : `https://${url}`
+  }
+
+  const contactEmail = import.meta.env.VITE_CONTACT_EMAIL || ''
+  const contactPhoneE164 = import.meta.env.VITE_CONTACT_PHONE_E164 || ''
+  const contactPhoneDisplay = import.meta.env.VITE_CONTACT_PHONE_DISPLAY || ''
+  const linkedinUrl = normalizeExternalUrl(import.meta.env.VITE_CONTACT_LINKEDIN_URL || '')
+  const linkedinHandle = import.meta.env.VITE_CONTACT_LINKEDIN_HANDLE || ''
+  const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || ''
+  const whatsappIntro = import.meta.env.VITE_WHATSAPP_INTRO || 'Hello, I found your portfolio and I would like to contact you.'
+  const quickWhatsAppHref = whatsappNumber
+    ? `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappIntro)}`
+    : ''
 
   const [formData, setFormData] = useState({
     name: '',
@@ -10,55 +24,55 @@ export default function Contact() {
     message: '',
   })
   const [status, setStatus] = useState(null)
-  const [errorMessage, setErrorMessage] = useState('Please fill in all fields')
+  const [errorMessage, setErrorMessage] = useState('Please fill in all fields.')
 
   const handleChange = (e) => {
     const { name, value } = e.target
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [name]: value,
     }))
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
 
-    if (!formData.name || !formData.email || !formData.message) {
+    const name = formData.name.trim()
+    const email = formData.email.trim()
+    const message = formData.message.trim()
+
+    if (!name || !email || !message) {
       setErrorMessage('Name, email, and message are required.')
       setStatus('error')
       setTimeout(() => setStatus(null), 5000)
       return
     }
 
-    setStatus('loading')
-
-    try {
-      const response = await fetch(contactEndpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify({
-          ...formData,
-          _subject: `Portfolio message from ${formData.name}`,
-          _captcha: 'false',
-          _template: 'table',
-        }),
-      })
-
-      if (!response.ok) {
-        throw new Error('Request failed')
-      }
-
-      setStatus('success')
-      setFormData({ name: '', email: '', message: '' })
-      setTimeout(() => setStatus(null), 5000)
-    } catch {
-      setErrorMessage('Message could not be sent. Please try again in a moment.')
+    if (!whatsappNumber) {
+      setErrorMessage('WhatsApp is not configured. Please set VITE_WHATSAPP_NUMBER.')
       setStatus('error')
       setTimeout(() => setStatus(null), 5000)
+      return
     }
+
+    const whatsappText = [
+      whatsappIntro,
+      '',
+      `Full Name: ${name}`,
+      `Email Address: ${email}`,
+      `Message: ${message}`,
+    ].join('\n')
+
+    const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappText)}`
+
+    const openedTab = window.open(whatsappHref, '_blank', 'noopener,noreferrer')
+    if (!openedTab) {
+      window.location.href = whatsappHref
+    }
+
+    setStatus('success')
+    setFormData({ name: '', email: '', message: '' })
+    setTimeout(() => setStatus(null), 5000)
   }
 
   return (
@@ -69,8 +83,7 @@ export default function Contact() {
           <h2 className="section-title">Get In Touch</h2>
           <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full mx-auto mt-4"></div>
           <p className="dark:text-gray-400 text-gray-700 mt-6 max-w-2xl mx-auto">
-            I'm always interested in hearing about new projects and opportunities. 
-            Feel free to reach out with any questions or just to say hello!
+            Send your message through this form and continue directly on WhatsApp.
           </p>
         </div>
 
@@ -133,20 +146,10 @@ export default function Contact() {
               <div className="space-y-3">
                 <button
                   type="submit"
-                  disabled={status === 'loading'}
-                  className="w-full btn-primary justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full inline-flex items-center justify-center px-6 py-3 font-semibold text-white bg-[#25D366] rounded-lg transition-all duration-300 hover:bg-[#1EBE57] hover:shadow-lg hover:shadow-[#25D366]/40 active:scale-95"
                 >
-                  {status === 'loading' ? (
-                    <>
-                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-                      Sending...
-                    </>
-                  ) : (
-                    <>
-                      Send Message
-                      <Send size={20} className="ml-2" />
-                    </>
-                  )}
+                  Send to WhatsApp
+                  <Send size={20} className="ml-2" />
                 </button>
 
                 {/* Status Messages */}
@@ -154,8 +157,8 @@ export default function Contact() {
                   <div className="p-4 bg-green-600/20 border border-green-600/50 rounded-lg flex items-center gap-3 text-green-300 animate-fade-in">
                     <CheckCircle size={20} />
                     <div>
-                      <p className="font-medium">Message sent successfully!</p>
-                      <p className="text-sm opacity-90">I'll get back to you within 24 hours.</p>
+                      <p className="font-medium">WhatsApp chat opened successfully.</p>
+                      <p className="text-sm opacity-90">If it did not open, please allow pop-ups and try again.</p>
                     </div>
                   </div>
                 )}
@@ -186,8 +189,8 @@ export default function Contact() {
                   </div>
                   <div>
                     <h4 className="text-sm font-bold dark:text-white text-gray-900">Email</h4>
-                    <a href="mailto:mauri.It0408@gmail.com" className="text-sm text-blue-400 hover:text-blue-300 transition-colors">
-                      mauri.It0408@gmail.com
+                    <a href={contactEmail ? `mailto:${contactEmail}` : '#'} className="text-sm text-blue-400 hover:text-blue-300 transition-colors">
+                      {contactEmail || 'Set VITE_CONTACT_EMAIL'}
                     </a>
                   </div>
                 </div>
@@ -202,8 +205,8 @@ export default function Contact() {
                   </div>
                   <div>
                     <h4 className="text-sm font-bold dark:text-white text-gray-900">LinkedIn</h4>
-                    <a href="https://linkedin.com/in/mauricio-lara-tapia-86911626a" target="_blank" rel="noopener noreferrer" className="text-sm text-blue-400 hover:text-blue-300 transition-colors">
-                      /mauricio-lara-tapia
+                    <a href={linkedinUrl || '#'} target="_blank" rel="noopener noreferrer" className="text-sm text-blue-400 hover:text-blue-300 transition-colors">
+                      {linkedinHandle || 'Set VITE_CONTACT_LINKEDIN_HANDLE'}
                     </a>
                   </div>
                 </div>
@@ -212,14 +215,19 @@ export default function Contact() {
               <div className="card group">
                 <div className="flex items-center space-x-4">
                   <div className="flex-shrink-0">
-                      <div className="flex items-center justify-center h-12 w-12 rounded-lg bg-blue-600/20">
+                    <div className="flex items-center justify-center h-12 w-12 rounded-lg bg-blue-600/20">
                       <Phone className="h-6 w-6 text-blue-400" />
                     </div>
                   </div>
                   <div>
                     <h4 className="text-sm font-bold dark:text-white text-gray-900">Phone</h4>
-                    <a href="tel:+59174839759" className="text-sm text-blue-400 hover:text-blue-300 transition-colors">
-                      +591 74839759
+                    <a
+                      href={quickWhatsAppHref || (contactPhoneE164 ? `tel:${contactPhoneE164}` : '#')}
+                      target={quickWhatsAppHref ? '_blank' : undefined}
+                      rel={quickWhatsAppHref ? 'noopener noreferrer' : undefined}
+                      className="text-sm text-blue-400 hover:text-blue-300 transition-colors"
+                    >
+                      {contactPhoneDisplay || 'Set VITE_CONTACT_PHONE_DISPLAY'}
                     </a>
                   </div>
                 </div>
@@ -231,7 +239,7 @@ export default function Contact() {
               <h4 className="text-sm font-bold dark:text-white text-gray-900 mb-4">Connect With Me</h4>
               <div className="flex gap-3">
                 <a
-                  href="https://linkedin.com/in/mauricio-lara-tapia-86911626a"
+                  href={linkedinUrl || '#'}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="LinkedIn"
@@ -240,14 +248,16 @@ export default function Contact() {
                   <Linkedin size={20} />
                 </a>
                 <a
-                  href="mailto:mauri.It0408@gmail.com"
+                  href={contactEmail ? `mailto:${contactEmail}` : '#'}
                   aria-label="Email"
                   className="p-3 rounded-lg dark:bg-gray-900 bg-gray-200 dark:border-gray-800 border-gray-300 dark:text-gray-400 text-gray-600 transition-all duration-300 hover:border-blue-600/50 hover:text-blue-600"
                 >
                   <Mail size={20} />
                 </a>
                 <a
-                  href="tel:+59174839759"
+                  href={quickWhatsAppHref || (contactPhoneE164 ? `tel:${contactPhoneE164}` : '#')}
+                  target={quickWhatsAppHref ? '_blank' : undefined}
+                  rel={quickWhatsAppHref ? 'noopener noreferrer' : undefined}
                   aria-label="Phone"
                   className="p-3 rounded-lg dark:bg-gray-900 bg-gray-200 dark:border-gray-800 border-gray-300 dark:text-gray-400 text-gray-600 transition-all duration-300 hover:border-blue-600/50 hover:text-blue-600"
                 >
@@ -259,7 +269,7 @@ export default function Contact() {
             {/* Response Time */}
             <div className="p-4 bg-blue-600/10 border border-blue-500/30 rounded-lg">
               <p className="text-sm text-blue-300">
-                <span className="font-semibold">Response Time:</span> I typically respond within 24 hours.
+                <span className="font-semibold">Response Time:</span> I usually reply quickly on WhatsApp.
               </p>
             </div>
           </div>
