@@ -17,6 +17,7 @@ concurrency:
 
 jobs:
   build:
+    environment: github-pages
     runs-on: ubuntu-latest
     env:
       VITE_CONTACT_EMAIL: ${{ vars.VITE_CONTACT_EMAIL }}
