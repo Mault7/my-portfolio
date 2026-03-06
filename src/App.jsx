@@ -4,12 +4,16 @@ import Hero from './components/Hero'
 import About from './components/About'
 import Skills from './components/Skills'
 import Experience from './components/Experience'
-import Projects from './components/Projects'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 
 function App() {
   const [isDark, setIsDark] = useState(true)
+  const [language, setLanguage] = useState(() => localStorage.getItem('language') || 'es')
+
+  useEffect(() => {
+    localStorage.setItem('language', language)
+  }, [language])
 
   useEffect(() => {
     if (isDark) {
@@ -25,16 +29,20 @@ function App() {
 
   return (
     <div className={isDark ? 'bg-black text-white' : 'bg-gray-50 text-gray-900'}>
-      <Navbar isDark={isDark} setIsDark={setIsDark} />
+      <Navbar
+        isDark={isDark}
+        setIsDark={setIsDark}
+        language={language}
+        setLanguage={setLanguage}
+      />
       <main>
-        <Hero />
-        <About />
-        <Skills />
-        <Experience />
-        <Projects />
-        <Contact />
+        <Hero language={language} />
+        <About language={language} />
+        <Skills language={language} />
+        <Experience language={language} />
+        <Contact language={language} />
       </main>
-      <Footer />
+      <Footer language={language} />
     </div>
   )
 }

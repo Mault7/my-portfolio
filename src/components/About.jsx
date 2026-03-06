@@ -1,111 +1,53 @@
 import React from 'react'
-import { Code2, Cloud, Zap, Target } from 'lucide-react'
 
-export default function About() {
-  const strengths = [
-    {
-      icon: Cloud,
-      title: 'Cloud Platforms',
-      description: 'AWS & GCP expertise. Compute, networking, IAM, and production deployments'
+export default function About({ language = 'en' }) {
+  const content = {
+    es: {
+      title: 'About Me',
+      introParagraphs: [
+        'Mi camino en la tecnologia comenzo cuando decidi viajar a Buenos Aires para realizar una especializacion en sistemas embebidos. En ese momento tuve mi primer contacto profundo con la programacion a traves de microcontroladores y el desarrollo de firmware. Trabajar tan cerca del hardware, entender como funcionan los sistemas a bajo nivel y construir soluciones desde cero desperto en mi una gran curiosidad por la tecnologia y una fuerte motivacion por aprender y resolver problemas.',
+        'A medida que fui desarrollando proyectos, esa curiosidad comenzo a llevarme mas alla del propio dispositivo. Empece a interesarme por como esos sistemas podian conectarse con otros, compartir informacion y formar parte de soluciones mas amplias. Fue entonces cuando descubri el potencial del paradigma del Internet de las Cosas.',
+        'Esa inquietud por comprender el panorama completo me llevo a explorar el desarrollo de software mas alla del mundo embebido. Con el tiempo di mis primeros pasos en software comercial trabajando en outsourcing, donde pude experimentar como se construyen aplicaciones reales y como los equipos colaboran.',
+        'Mientras avanzaba en ese camino, cada vez me interesaba mas entender lo que ocurria detras de las aplicaciones: como se construyen los entornos donde viven, como se despliegan los sistemas y como se mantienen funcionando de forma confiable. Fue ahi donde descubri el mundo de DevOps.',
+        'DevOps represento para mi la convergencia de muchas cosas que siempre me interesaron: ingenieria de sistemas, automatizacion, infraestructura y la posibilidad de construir plataformas que permitan que el software evolucione y escale eficientemente. Hoy mi enfoque principal esta en este campo, especialmente en cloud.',
+        'Mirando hacia atras, desde aquellos primeros proyectos con microcontroladores hasta mi interes actual en DevOps, un aspecto se ha mantenido constante: la curiosidad por entender como funcionan los sistemas y la motivacion por seguir aprendiendo y construyendo tecnologia cada vez mas significativa.',
+      ],
     },
-    {
-      icon: Code2,
-      title: 'Infrastructure as Code',
-      description: 'Terraform expert (Certified Associate 004). Ansible for configuration management'
+    en: {
+      title: 'About Me',
+      introParagraphs: [
+        'My journey in technology started when I moved to Buenos Aires to pursue a specialization in embedded systems. That was my first deep exposure to programming through microcontrollers and firmware development. Working close to hardware and building solutions from scratch sparked a strong curiosity in me and a real motivation to keep learning and solving problems.',
+        'As I built more projects, that curiosity pushed me beyond individual devices. I became interested in how systems connect, exchange data, and integrate into broader solutions. That is when I discovered the potential of the Internet of Things paradigm.',
+        'That same desire to understand the full picture led me to explore software development beyond embedded systems. Over time, I took my first steps in commercial software in an outsourcing company, where I saw how real applications are built and how teams collaborate to deliver value.',
+        'As I progressed, I became increasingly interested in what happens behind applications: how environments are built, how systems are deployed, and how reliability is maintained. That is where I discovered the DevOps world.',
+        'DevOps represented the convergence of many things that have always interested me: systems engineering, automation, infrastructure, and building platforms that help software evolve and scale efficiently. Today, my main focus is in this field, especially in the cloud ecosystem.',
+        'Looking back, from early microcontroller projects to my current focus on DevOps, one thing has remained constant: curiosity about how systems work and the motivation to keep learning and building increasingly meaningful technology.',
+      ],
     },
-    {
-      icon: Zap,
-      title: 'Container Orchestration',
-      description: 'Kubernetes cluster administration, deployments, scaling, and standardization'
-    },
-    {
-      icon: Target,
-      title: 'Backend Development',
-      description: 'PHP/Laravel expertise. Microservices architecture and REST APIs'
-    },
-  ]
+  }
+
+  const t = content[language] || content.en
 
   return (
     <section id="about" className="relative py-24 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Title */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-16 text-center">
-          <h2 className="section-title">About Me</h2>
+          <h2 className="section-title">{t.title}</h2>
           <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full mx-auto mt-4"></div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
-          {/* Left Side - Bio */}
-          <div className="space-y-6 animate-fade-in">
-            <p className="text-lg dark:text-gray-300 text-gray-700 leading-relaxed">
-              Electronic Systems Engineer with 3+ years of hands-on experience building cloud-native infrastructure and backend systems. 
-              I'm passionate about designing scalable architectures, automating deployments, and ensuring production reliability. 
-              Certified Terraform Associate with a strong foundation in microservices and containerized environments.
-            </p>
-            
-            <p className="text-lg dark:text-gray-300 text-gray-700 leading-relaxed">
-              My expertise spans across cloud platforms (AWS, GCP), container orchestration (Kubernetes, Docker), 
-              Infrastructure as Code (Terraform, Ansible), and CI/CD automation (Bitbucket Pipelines, Jenkins). 
-              I've successfully led cloud migrations, standardized deployment processes, and reduced operational overhead through automation.
-            </p>
-
-            <p className="text-lg dark:text-gray-300 text-gray-700 leading-relaxed">
-              Beyond infrastructure, I have solid backend development experience with PHP and Laravel, 
-              understand microservices architecture deeply, and focus on building reliable systems with clean, maintainable code.
-            </p>
-
-            <div className="pt-4">
-              <button className="btn-primary group">
-                Learn More About Me
-              </button>
+        <div className="space-y-8">
+          <article className="relative overflow-hidden rounded-2xl border border-blue-500/20 dark:bg-gradient-to-br dark:from-blue-600/10 dark:via-gray-900 dark:to-black bg-gradient-to-br from-blue-50 via-white to-blue-100 p-8 md:p-10">
+            <div className="absolute -top-20 -right-20 h-52 w-52 rounded-full bg-blue-500/15 blur-3xl pointer-events-none"></div>
+            <div className="space-y-5 relative z-10">
+              {t.introParagraphs.map((paragraph, idx) => (
+                <p key={idx} className="text-base md:text-lg leading-8 dark:text-gray-200 text-gray-700">
+                  {paragraph}
+                </p>
+              ))}
             </div>
-          </div>
+          </article>
 
-          {/* Right Side - Strengths */}
-          <div className="grid sm:grid-cols-2 gap-4">
-            {strengths.map((strength, idx) => {
-              const Icon = strength.icon
-              return (
-                <div
-                  key={idx}
-                  className="card stagger-item group cursor-pointer"
-                >
-                  <div className="flex items-start space-x-4">
-                    <div className="flex-shrink-0">
-                      <div className="flex items-center justify-center h-12 w-12 rounded-lg bg-blue-600/20 group-hover:bg-blue-600/40 transition-colors duration-300">
-                        <Icon className="h-6 w-6 text-blue-400" />
-                      </div>
-                    </div>
-                    <div>
-                      <h3 className="text-sm font-bold dark:text-white text-gray-900 mt-0">
-                        {strength.title}
-                      </h3>
-                      <p className="text-xs dark:text-gray-400 text-gray-600 mt-1">
-                        {strength.description}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-3 md:grid-cols-6 gap-4 py-12 dark:border-gray-800 border-gray-300">
-          {[
-            { value: '3+', label: 'Years Exp.' },
-            { value: '8+', label: 'Cloud Projects' },
-            { value: '2', label: 'Cloud Platforms' },
-            { value: '12+', label: 'Technologies' },
-            { value: 'Certified', label: 'Terraform' },
-            { value: 'Bolivia', label: 'Location' },
-          ].map((stat, idx) => (
-            <div key={idx} className="text-center p-4 rounded-lg dark:bg-gray-900/50 bg-gray-200/50 dark:hover:bg-gray-900/80 hover:bg-gray-300/50 transition-colors duration-300">
-              <div className="text-2xl font-bold text-blue-500 mb-1">{stat.value}</div>
-              <div className="text-xs dark:text-gray-400 text-gray-600">{stat.label}</div>
-            </div>
-          ))}
         </div>
       </div>
     </section>

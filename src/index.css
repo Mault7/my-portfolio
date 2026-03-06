@@ -120,29 +120,37 @@ html:not(.dark) ::-webkit-scrollbar-thumb {
   50% { transform: rotate(10deg); }
 }
 
-.badge-carousel {
+.badge-marquee {
+  position: relative;
   overflow: hidden;
   width: 100%;
+  min-height: 190px;
+  --badge-duration: 10s;
 }
 
-.badge-track {
-  display: flex;
-  gap: 1rem;
-  width: max-content;
-  animation: badgeMarquee 18s linear infinite;
+.badge-marquee-item {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  width: 180px;
+  transform: translateY(-50%);
+  animation: badgeMarqueeFlow var(--badge-duration) linear infinite;
+  animation-delay: calc(
+    (var(--badge-duration) / var(--badge-count)) * var(--badge-index) * -1
+  );
+  will-change: left;
+  transition: transform 220ms ease;
 }
 
-.badge-carousel:hover .badge-track {
+.badge-marquee-item:hover {
   animation-play-state: paused;
+  transform: translateY(-50%) scale(1.08);
+  z-index: 2;
 }
 
-.badge-carousel-item {
-  min-width: 320px;
-}
-
-@keyframes badgeMarquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+@keyframes badgeMarqueeFlow {
+  from { left: 100%; }
+  to { left: -180px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
