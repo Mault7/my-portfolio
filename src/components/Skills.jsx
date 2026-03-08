@@ -7,7 +7,7 @@ export default function Skills({ language = 'en' }) {
 
   const content = {
     es: {
-      title: 'Skills y Expertise',
+      title: 'Habilidades y Experiencia',
       certificationsTitle: 'Certificaciones',
       educationTitle: 'Educacion',
       statusEarned: 'Obtenida',

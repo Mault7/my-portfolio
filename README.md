@@ -11,11 +11,12 @@ A modern, responsive personal landing page built with React, Vite, and Tailwind 
 - **Interactive Components**: Sticky navbar, smooth scrolling, contact section
 - **Professional Sections**:
   - Hero section with CTA buttons
-  - About me with key strengths
-  - Skills with categorized expertise
+  - About me section
+  - Skills and technology stack
+  - Certifications and professional badges
+  - Education
   - Experience timeline
-  - Featured projects showcase
-  - Contact form and social links
+  - Contact form with WhatsApp integration and social links
   - Footer
 
 ## 🚀 Quick Start
@@ -49,6 +50,7 @@ cp .env.example .env
 ```
 
 Then update values in `.env` for contact info, WhatsApp, CV filename, badges, and profile links.
+If needed, also configure `VITE_BASE_PATH` for your deployment path (for example `/my-portfolio/` on GitHub Pages).
 
 ### Docker (Current Setup)
 
@@ -126,6 +128,7 @@ It uses:
 
 - `VITE_WHATSAPP_NUMBER`
 - `VITE_WHATSAPP_INTRO`
+- `VITE_BASE_PATH`
 
 It also includes sender `Full Name`, `Email Address`, and `Message` in the prefilled WhatsApp text.
 

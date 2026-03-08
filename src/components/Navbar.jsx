@@ -8,7 +8,7 @@ export default function Navbar({ isDark, setIsDark, language, setLanguage }) {
   const labels = {
     es: {
       about: 'Acerca',
-      skills: 'Skills',
+      skills: 'Habilidades',
       experience: 'Experiencia',
       contact: 'Contacto',
       langAria: 'Seleccionar idioma',

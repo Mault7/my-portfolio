@@ -9,7 +9,7 @@ export default function Footer({ language = 'en' }) {
 
   const text = {
     es: {
-      desc: 'Ingeniero en Sistemas Electronicos | DevOps | Cloud | Backend Developer. Construyendo infraestructura cloud escalable y sistemas confiables.',
+      desc: 'Backend Software Developer | PHP & Laravel | DevOps: Linux, Docker, Kubernetes, CI/CD | Cloud: AWS & GCP | Terraform Certified | Ansible',
       links: 'Enlaces Rapidos',
       connect: 'Conecta Conmigo',
       madeWith: 'Hecho con',
@@ -17,11 +17,10 @@ export default function Footer({ language = 'en' }) {
       rights: 'Todos los derechos reservados.',
       about: 'Acerca',
       contact: 'Contacto',
-      privacy: 'Privacidad',
       introDefault: 'Hola, vi tu portafolio y quiero contactarte.',
     },
     en: {
-      desc: 'Electronic Systems Engineer | DevOps | Cloud | Backend Developer. Building scalable cloud infrastructure and reliable systems.',
+      desc: 'Backend Software Developer | PHP & Laravel | DevOps: Linux, Docker, Kubernetes, CI/CD | Cloud: AWS & GCP | Terraform Certified | Ansible',
       links: 'Quick Links',
       connect: 'Connect With Me',
       madeWith: 'Made with',
@@ -29,7 +28,6 @@ export default function Footer({ language = 'en' }) {
       rights: 'All rights reserved.',
       about: 'About',
       contact: 'Contact',
-      privacy: 'Privacy',
       introDefault: 'Hello, I found your portfolio and I would like to contact you.',
     },
   }
@@ -43,11 +41,14 @@ export default function Footer({ language = 'en' }) {
   const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || ''
   const whatsappIntro = import.meta.env.VITE_WHATSAPP_INTRO || t.introDefault
   const quickWhatsAppHref = whatsappNumber ? `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappIntro)}` : ''
+  const phoneHref = quickWhatsAppHref || (contactPhoneE164 ? `tel:${contactPhoneE164}` : '')
+  const hasEmail = Boolean(contactEmail)
+  const hasLinkedIn = Boolean(linkedinUrl)
+  const hasPhone = Boolean(phoneHref)
 
   const footerLinks = [
     { label: t.about, href: '#about' },
     { label: t.contact, href: '#contact' },
-    { label: t.privacy, href: '#' },
   ]
 
   return (
@@ -75,9 +76,21 @@ export default function Footer({ language = 'en' }) {
             <div>
               <h4 className="text-sm font-bold dark:text-white text-gray-900 mb-4">{t.connect}</h4>
               <div className="flex gap-3">
-                <a href={linkedinUrl || '#'} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="p-2 rounded-lg dark:bg-gray-900 bg-gray-200 dark:hover:bg-blue-600/20 hover:bg-blue-500/20 dark:text-gray-400 text-gray-700 dark:hover:text-blue-400 hover:text-blue-600 dark:border-gray-800 border-gray-300 dark:hover:border-blue-600/50 hover:border-blue-400 transition-all duration-300"><Linkedin size={20} /></a>
-                <a href={contactEmail ? `mailto:${contactEmail}` : '#'} aria-label="Email" className="p-2 rounded-lg dark:bg-gray-900 bg-gray-200 dark:hover:bg-blue-600/20 hover:bg-blue-500/20 dark:text-gray-400 text-gray-700 dark:hover:text-blue-400 hover:text-blue-600 dark:border-gray-800 border-gray-300 dark:hover:border-blue-600/50 hover:border-blue-400 transition-all duration-300"><Mail size={20} /></a>
-                <a href={quickWhatsAppHref || (contactPhoneE164 ? `tel:${contactPhoneE164}` : '#')} target={quickWhatsAppHref ? '_blank' : undefined} rel={quickWhatsAppHref ? 'noopener noreferrer' : undefined} aria-label="Phone" className="p-2 rounded-lg dark:bg-gray-900 bg-gray-200 dark:hover:bg-blue-600/20 hover:bg-blue-500/20 dark:text-gray-400 text-gray-700 dark:hover:text-blue-400 hover:text-blue-600 dark:border-gray-800 border-gray-300 dark:hover:border-blue-600/50 hover:border-blue-400 transition-all duration-300"><Phone size={20} /></a>
+                {hasLinkedIn ? (
+                  <a href={linkedinUrl} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="p-2 rounded-lg dark:bg-gray-900 bg-gray-200 dark:hover:bg-blue-600/20 hover:bg-blue-500/20 dark:text-gray-400 text-gray-700 dark:hover:text-blue-400 hover:text-blue-600 dark:border-gray-800 border-gray-300 dark:hover:border-blue-600/50 hover:border-blue-400 transition-all duration-300"><Linkedin size={20} /></a>
+                ) : (
+                  <span aria-label="LinkedIn unavailable" className="p-2 rounded-lg dark:bg-gray-900 bg-gray-200 dark:text-gray-600 text-gray-400 cursor-not-allowed dark:border-gray-800 border-gray-300"><Linkedin size={20} /></span>
+                )}
+                {hasEmail ? (
+                  <a href={`mailto:${contactEmail}`} aria-label="Email" className="p-2 rounded-lg dark:bg-gray-900 bg-gray-200 dark:hover:bg-blue-600/20 hover:bg-blue-500/20 dark:text-gray-400 text-gray-700 dark:hover:text-blue-400 hover:text-blue-600 dark:border-gray-800 border-gray-300 dark:hover:border-blue-600/50 hover:border-blue-400 transition-all duration-300"><Mail size={20} /></a>
+                ) : (
+                  <span aria-label="Email unavailable" className="p-2 rounded-lg dark:bg-gray-900 bg-gray-200 dark:text-gray-600 text-gray-400 cursor-not-allowed dark:border-gray-800 border-gray-300"><Mail size={20} /></span>
+                )}
+                {hasPhone ? (
+                  <a href={phoneHref} target={quickWhatsAppHref ? '_blank' : undefined} rel={quickWhatsAppHref ? 'noopener noreferrer' : undefined} aria-label="Phone" className="p-2 rounded-lg dark:bg-gray-900 bg-gray-200 dark:hover:bg-blue-600/20 hover:bg-blue-500/20 dark:text-gray-400 text-gray-700 dark:hover:text-blue-400 hover:text-blue-600 dark:border-gray-800 border-gray-300 dark:hover:border-blue-600/50 hover:border-blue-400 transition-all duration-300"><Phone size={20} /></a>
+                ) : (
+                  <span aria-label="Phone unavailable" className="p-2 rounded-lg dark:bg-gray-900 bg-gray-200 dark:text-gray-600 text-gray-400 cursor-not-allowed dark:border-gray-800 border-gray-300"><Phone size={20} /></span>
+                )}
               </div>
             </div>
           </div>

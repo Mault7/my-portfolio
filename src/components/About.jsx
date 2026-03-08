@@ -3,7 +3,7 @@ import React from 'react'
 export default function About({ language = 'en' }) {
   const content = {
     es: {
-      title: 'About Me',
+      title: 'Sobre Mi',
       introParagraphs: [
         'Mi camino en la tecnologia comenzo cuando decidi viajar a Buenos Aires para realizar una especializacion en sistemas embebidos. En ese momento tuve mi primer contacto profundo con la programacion a traves de microcontroladores y el desarrollo de firmware. Trabajar tan cerca del hardware, entender como funcionan los sistemas a bajo nivel y construir soluciones desde cero desperto en mi una gran curiosidad por la tecnologia y una fuerte motivacion por aprender y resolver problemas.',
         'A medida que fui desarrollando proyectos, esa curiosidad comenzo a llevarme mas alla del propio dispositivo. Empece a interesarme por como esos sistemas podian conectarse con otros, compartir informacion y formar parte de soluciones mas amplias. Fue entonces cuando descubri el potencial del paradigma del Internet de las Cosas.',

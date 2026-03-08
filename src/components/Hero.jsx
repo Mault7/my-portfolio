@@ -4,14 +4,36 @@ import { ArrowRight, Download } from 'lucide-react'
 export default function Hero({ language = 'en' }) {
   const cvFileName = import.meta.env.VITE_CV_FILE_NAME || ''
   const cvHref = cvFileName ? `${import.meta.env.BASE_URL}${cvFileName}` : '#'
+  const careerStartDate = new Date(2022, 0, 1)
+  const now = new Date()
+  let yearsOfExperience = now.getFullYear() - careerStartDate.getFullYear()
+  const hasReachedAnniversary =
+    now.getMonth() > careerStartDate.getMonth() ||
+    (now.getMonth() === careerStartDate.getMonth() && now.getDate() >= careerStartDate.getDate())
+  if (!hasReachedAnniversary) {
+    yearsOfExperience -= 1
+  }
+  const yearsCount = Math.max(0, yearsOfExperience)
+  const experienceLabel =
+    language === 'es'
+      ? `${yearsCount}+ ${yearsCount === 1 ? 'año' : 'años'}`
+      : `${yearsCount}+ ${yearsCount === 1 ? 'year' : 'years'}`
 
   const content = {
     es: {
       badge: 'Bienvenido a mi portafolio',
       hello: 'Hola, soy',
       role: 'Ingeniero en Sistemas Electronicos | DevOps | Cloud | Backend Developer',
-      description:
-        'Ingeniero de Software con mas de 3 anos construyendo infraestructura cloud-native y sistemas backend. Certificado en Terraform, con experiencia en Kubernetes, AWS, GCP y automatizacion CI/CD. Apasionado por infraestructura como codigo, entornos containerizados y confiabilidad en produccion.',
+      summary1:
+        'Graduado en Ingenieria de Sistemas Electronicos con 1 año de experiencia en desarrollo de firmware embebido para sistemas IoT, trabajando con lenguaje C, brokers MQTT y plataformas como Arduino, STM32 y ESP32.',
+      summary2:
+        'Soy Software Developer Full Stack con experiencia en desarrollo backend utilizando PHP vanilla y el framework Laravel, asi como en desarrollo frontend con React.',
+      summary3Start:
+        'También me desempeño como Cloud and DevOps Engineer. A lo largo de más de ',
+      summary3End:
+        ' de experiencia profesional desde enero de 2022, he trabajado en desarrollo de software y en la construccion y operacion de infraestructura cloud escalable y confiable.',
+      stack:
+        'HashiCorp Certified: Terraform Associate (004) | Terraform | Ansible | CI/CD | AWS | GCP | Kubernetes | Docker',
       ctaContact: 'Contactame',
       ctaCv: 'Descargar CV',
       scroll: 'Desliza para explorar',
@@ -20,8 +42,16 @@ export default function Hero({ language = 'en' }) {
       badge: 'Welcome to my portfolio',
       hello: "Hi, I'm",
       role: 'Electronic Systems Engineer | DevOps | Cloud | Backend Developer',
-      description:
-        'Software Engineer with 3+ years building cloud-native infrastructure and backend systems. Certified Terraform Associate with expertise in Kubernetes, AWS, GCP, and CI/CD automation. Passionate about infrastructure as code, containerized environments, and production reliability.',
+      summary1:
+        'Systems and Electronic Engineering graduate with 1 year of experience in embedded firmware development for IoT systems, working with the C programming language, MQTT brokers, and platforms such as Arduino, STM32, and ESP32.',
+      summary2:
+        'I am a Full Stack Software Developer with backend experience using vanilla PHP and the Laravel framework, as well as frontend development with React.',
+      summary3Start:
+        'I also work as a Cloud and DevOps Engineer. Across more than ',
+      summary3End:
+        ' of professional experience since January 2022, I have worked in software development and in the design and operation of scalable, reliable cloud infrastructure.',
+      stack:
+        'HashiCorp Certified: Terraform Associate (004) | Terraform | Ansible | CI/CD | AWS | GCP | Kubernetes | Docker',
       ctaContact: 'Get in Touch',
       ctaCv: 'Download CV',
       scroll: 'Scroll to explore',
@@ -64,9 +94,18 @@ export default function Hero({ language = 'en' }) {
             {t.role}
           </h2>
 
-          <p className="text-base sm:text-lg dark:text-gray-400 text-gray-700 mb-10 max-w-2xl mx-auto leading-relaxed">
-            {t.description}
-          </p>
+          <div className="mb-10 max-w-4xl mx-auto space-y-3">
+            <p className="text-base sm:text-lg dark:text-gray-400 text-gray-700 leading-relaxed">{t.summary1}</p>
+            <p className="text-base sm:text-lg dark:text-gray-400 text-gray-700 leading-relaxed">{t.summary2}</p>
+            <p className="text-base sm:text-lg dark:text-gray-400 text-gray-700 leading-relaxed">
+              {t.summary3Start}
+              <span className="font-semibold dark:text-blue-300 text-blue-600">{experienceLabel}</span>
+              {t.summary3End}
+            </p>
+            <p className="text-sm sm:text-base font-medium dark:text-blue-300 text-blue-700">
+              {t.stack}
+            </p>
+          </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
             <button onClick={() => scrollTo('contact')} className="btn-primary group">

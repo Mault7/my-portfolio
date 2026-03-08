@@ -72,6 +72,10 @@ export default function Contact({ language = 'en' }) {
   const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || ''
   const whatsappIntro = import.meta.env.VITE_WHATSAPP_INTRO || t.introDefault
   const quickWhatsAppHref = whatsappNumber ? `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappIntro)}` : ''
+  const phoneHref = quickWhatsAppHref || (contactPhoneE164 ? `tel:${contactPhoneE164}` : '')
+  const hasEmail = Boolean(contactEmail)
+  const hasLinkedIn = Boolean(linkedinUrl)
+  const hasPhone = Boolean(phoneHref)
 
   const [formData, setFormData] = useState({ name: '', email: '', message: '' })
   const [status, setStatus] = useState(null)
@@ -186,7 +190,11 @@ export default function Contact({ language = 'en' }) {
                   <div className="flex-shrink-0"><div className="flex items-center justify-center h-12 w-12 rounded-lg bg-blue-600/20"><Mail className="h-6 w-6 text-blue-400" /></div></div>
                   <div>
                     <h4 className="text-sm font-bold dark:text-white text-gray-900">{t.emailLabel}</h4>
-                    <a href={contactEmail ? `mailto:${contactEmail}` : '#'} className="text-sm text-blue-400 hover:text-blue-300 transition-colors">{contactEmail || t.setEmail}</a>
+                    {hasEmail ? (
+                      <a href={`mailto:${contactEmail}`} className="text-sm text-blue-400 hover:text-blue-300 transition-colors">{contactEmail}</a>
+                    ) : (
+                      <span className="text-sm dark:text-gray-500 text-gray-500">{t.setEmail}</span>
+                    )}
                   </div>
                 </div>
               </div>
@@ -196,7 +204,11 @@ export default function Contact({ language = 'en' }) {
                   <div className="flex-shrink-0"><div className="flex items-center justify-center h-12 w-12 rounded-lg bg-blue-600/20"><Linkedin className="h-6 w-6 text-blue-400" /></div></div>
                   <div>
                     <h4 className="text-sm font-bold dark:text-white text-gray-900">{t.linkedinLabel}</h4>
-                    <a href={linkedinUrl || '#'} target="_blank" rel="noopener noreferrer" className="text-sm text-blue-400 hover:text-blue-300 transition-colors">{linkedinHandle || t.setLinkedin}</a>
+                    {hasLinkedIn ? (
+                      <a href={linkedinUrl} target="_blank" rel="noopener noreferrer" className="text-sm text-blue-400 hover:text-blue-300 transition-colors">{linkedinHandle || linkedinUrl}</a>
+                    ) : (
+                      <span className="text-sm dark:text-gray-500 text-gray-500">{t.setLinkedin}</span>
+                    )}
                   </div>
                 </div>
               </div>
@@ -206,7 +218,11 @@ export default function Contact({ language = 'en' }) {
                   <div className="flex-shrink-0"><div className="flex items-center justify-center h-12 w-12 rounded-lg bg-blue-600/20"><Phone className="h-6 w-6 text-blue-400" /></div></div>
                   <div>
                     <h4 className="text-sm font-bold dark:text-white text-gray-900">{t.phoneLabel}</h4>
-                    <a href={quickWhatsAppHref || (contactPhoneE164 ? `tel:${contactPhoneE164}` : '#')} target={quickWhatsAppHref ? '_blank' : undefined} rel={quickWhatsAppHref ? 'noopener noreferrer' : undefined} className="text-sm text-blue-400 hover:text-blue-300 transition-colors">{contactPhoneDisplay || t.setPhone}</a>
+                    {hasPhone ? (
+                      <a href={phoneHref} target={quickWhatsAppHref ? '_blank' : undefined} rel={quickWhatsAppHref ? 'noopener noreferrer' : undefined} className="text-sm text-blue-400 hover:text-blue-300 transition-colors">{contactPhoneDisplay || phoneHref}</a>
+                    ) : (
+                      <span className="text-sm dark:text-gray-500 text-gray-500">{t.setPhone}</span>
+                    )}
                   </div>
                 </div>
               </div>
@@ -215,9 +231,21 @@ export default function Contact({ language = 'en' }) {
             <div>
               <h4 className="text-sm font-bold dark:text-white text-gray-900 mb-4">{t.connect}</h4>
               <div className="flex gap-3">
-                <a href={linkedinUrl || '#'} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="p-3 rounded-lg dark:bg-gray-900 bg-gray-200 dark:border-gray-800 border-gray-300 dark:text-gray-400 text-gray-600 transition-all duration-300 hover:border-blue-600/50 hover:text-blue-600"><Linkedin size={20} /></a>
-                <a href={contactEmail ? `mailto:${contactEmail}` : '#'} aria-label="Email" className="p-3 rounded-lg dark:bg-gray-900 bg-gray-200 dark:border-gray-800 border-gray-300 dark:text-gray-400 text-gray-600 transition-all duration-300 hover:border-blue-600/50 hover:text-blue-600"><Mail size={20} /></a>
-                <a href={quickWhatsAppHref || (contactPhoneE164 ? `tel:${contactPhoneE164}` : '#')} target={quickWhatsAppHref ? '_blank' : undefined} rel={quickWhatsAppHref ? 'noopener noreferrer' : undefined} aria-label="Phone" className="p-3 rounded-lg dark:bg-gray-900 bg-gray-200 dark:border-gray-800 border-gray-300 dark:text-gray-400 text-gray-600 transition-all duration-300 hover:border-blue-600/50 hover:text-blue-600"><Phone size={20} /></a>
+                {hasLinkedIn ? (
+                  <a href={linkedinUrl} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="p-3 rounded-lg dark:bg-gray-900 bg-gray-200 dark:border-gray-800 border-gray-300 dark:text-gray-400 text-gray-600 transition-all duration-300 hover:border-blue-600/50 hover:text-blue-600"><Linkedin size={20} /></a>
+                ) : (
+                  <span aria-label="LinkedIn unavailable" className="p-3 rounded-lg dark:bg-gray-900 bg-gray-200 dark:border-gray-800 border-gray-300 dark:text-gray-600 text-gray-400 cursor-not-allowed"><Linkedin size={20} /></span>
+                )}
+                {hasEmail ? (
+                  <a href={`mailto:${contactEmail}`} aria-label="Email" className="p-3 rounded-lg dark:bg-gray-900 bg-gray-200 dark:border-gray-800 border-gray-300 dark:text-gray-400 text-gray-600 transition-all duration-300 hover:border-blue-600/50 hover:text-blue-600"><Mail size={20} /></a>
+                ) : (
+                  <span aria-label="Email unavailable" className="p-3 rounded-lg dark:bg-gray-900 bg-gray-200 dark:border-gray-800 border-gray-300 dark:text-gray-600 text-gray-400 cursor-not-allowed"><Mail size={20} /></span>
+                )}
+                {hasPhone ? (
+                  <a href={phoneHref} target={quickWhatsAppHref ? '_blank' : undefined} rel={quickWhatsAppHref ? 'noopener noreferrer' : undefined} aria-label="Phone" className="p-3 rounded-lg dark:bg-gray-900 bg-gray-200 dark:border-gray-800 border-gray-300 dark:text-gray-400 text-gray-600 transition-all duration-300 hover:border-blue-600/50 hover:text-blue-600"><Phone size={20} /></a>
+                ) : (
+                  <span aria-label="Phone unavailable" className="p-3 rounded-lg dark:bg-gray-900 bg-gray-200 dark:border-gray-800 border-gray-300 dark:text-gray-600 text-gray-400 cursor-not-allowed"><Phone size={20} /></span>
+                )}
               </div>
             </div>
 
